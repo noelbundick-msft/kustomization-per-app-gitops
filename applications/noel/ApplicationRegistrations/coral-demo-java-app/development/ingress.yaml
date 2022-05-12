@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: coral-demo-java-app-ingress
+  namespace: noel-coral-demo-java-app-development
+spec:
+  rules:
+  - host: development.coral-demo-java-app.noel.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: coral-demo-java-app
+            port:
+              number: 5000

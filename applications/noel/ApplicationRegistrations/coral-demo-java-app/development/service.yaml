@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: coral-demo-java-app
+  namespace: noel-coral-demo-java-app-development
+spec:
+  selector:
+    app: coral-demo-java-app
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

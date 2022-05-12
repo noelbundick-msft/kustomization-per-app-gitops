@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coral-demo-java-app-deployment
+  namespace: noel-coral-demo-java-app-development
+  labels:
+    app: coral-demo-java-app
+    workspace: noel
+    target: development
+    environment: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coral-demo-java-app
+  template:
+    metadata:
+      labels:
+        app: coral-demo-java-app
+        workspace: noel
+        target: development
+        environment: dev
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "5000"       
+    spec:
+      containers:
+      - name: coral-demo-java-app
+        image: coraldemofd424c.azurecr.io/noelbundick-msft/coral-demo-java-app:main
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: 1
+            memory: 1G
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
