@@ -16,4 +16,4 @@ spec:
       coral_app: coral-demo-java-app
       coral_deployment: development
       template_image: "coraldemofd424c.azurecr.io/noelbundick-msft/coral-demo-java-app:main"
-      template_port: "5000"
+      # template_port: "5000"
