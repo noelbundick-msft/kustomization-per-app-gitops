@@ -33,7 +33,7 @@ spec:
         image: ${template_image}
         imagePullPolicy: Always
         ports:
-        - containerPort: ${template_port}
+        - containerPort: "${template_port}"
         resources:
           limits:
             cpu: 1
@@ -41,7 +41,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /healthcheck
-            port: ${template_port}
+            port: "${template_port}"
           initialDelaySeconds: 10
           periodSeconds: 10
 # ---
