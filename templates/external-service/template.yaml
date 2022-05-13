@@ -19,7 +19,8 @@ spec:
       app: ${coral_app}
   template:
     metadata:
-      # labels:
+      labels:
+        app: ${coral_app}
         # {{#coral.labels}}
         # {{key}}: {{value}}
         # {{/coral.labels}}
