@@ -26,14 +26,16 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: /metrics
-        prometheus.io/port: "${template_port}"       
+        # prometheus.io/port: "${template_port}"       
+        prometheus.io/port: "5000"
     spec:
       containers:
       - name: ${coral_app}
         image: ${template_image}
         imagePullPolicy: Always
         ports:
-        - containerPort: "${template_port}"
+        # - containerPort: ${template_port}
+          - containerPort: 5000
         resources:
           limits:
             cpu: 1
@@ -41,7 +43,8 @@ spec:
         readinessProbe:
           httpGet:
             path: /healthcheck
-            port: "${template_port}"
+            # port: ${template_port}
+            port: 5000
           initialDelaySeconds: 10
           periodSeconds: 10
 # ---
