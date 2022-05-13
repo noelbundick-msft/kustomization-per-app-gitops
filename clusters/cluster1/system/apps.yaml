@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: noel-coral-demo-java-app-deployment
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./templates/external-service
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute:
+      coral_workspace: noel
+      coral_app: coral-demo-java-app
+      coral_deployment: development
+      template_image: "coraldemofd424c.azurecr.io/noelbundick-msft/coral-demo-java-app:main"
+      template_port: 5000
