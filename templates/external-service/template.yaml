@@ -2,77 +2,77 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ${coral_workspace}-${coral_app}-${coral_deployment}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ${coral_app}-deployment
-  namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
-  labels:
-  # {{#coral.labels}}
-  #   {{key}}: {{value}}
-  # {{/coral.labels}}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: ${coral_app}
-  template:
-    metadata:
-      labels:
-        # {{#coral.labels}}
-        # {{key}}: {{value}}
-        # {{/coral.labels}}
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: /metrics
-        prometheus.io/port: "${template_port}"       
-    spec:
-      containers:
-      - name: ${coral_app}
-        image: ${template_image}
-        imagePullPolicy: Always
-        ports:
-        - containerPort: ${template_port}
-        resources:
-          limits:
-            cpu: 1
-            memory: 1G
-        readinessProbe:
-          httpGet:
-            path: /healthcheck
-            port: ${template_port}
-          initialDelaySeconds: 10
-          periodSeconds: 10
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ${coral_app}-ingress
-  namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
-spec:
-  rules:
-  - host: ${coral_deployment}.${coral_app}.${coral_workspace}.${template_domainSuffix:=example.com}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ${coral_app}
-            port:
-              number: ${template_port}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ${coral_app}
-  namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
-spec:
-  selector:
-    app: ${coral_app}
-  ports:
-    - protocol: TCP
-      port: ${template_port}
-      targetPort: ${template_port}
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: ${coral_app}-deployment
+#   namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
+#   labels:
+#   # {{#coral.labels}}
+#   #   {{key}}: {{value}}
+#   # {{/coral.labels}}
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: ${coral_app}
+#   template:
+#     metadata:
+#       labels:
+#         # {{#coral.labels}}
+#         # {{key}}: {{value}}
+#         # {{/coral.labels}}
+#       annotations:
+#         prometheus.io/scrape: "true"
+#         prometheus.io/path: /metrics
+#         prometheus.io/port: "${template_port}"       
+#     spec:
+#       containers:
+#       - name: ${coral_app}
+#         image: ${template_image}
+#         imagePullPolicy: Always
+#         ports:
+#         - containerPort: ${template_port}
+#         resources:
+#           limits:
+#             cpu: 1
+#             memory: 1G
+#         readinessProbe:
+#           httpGet:
+#             path: /healthcheck
+#             port: ${template_port}
+#           initialDelaySeconds: 10
+#           periodSeconds: 10
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ${coral_app}-ingress
+#   namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
+# spec:
+#   rules:
+#   - host: ${coral_deployment}.${coral_app}.${coral_workspace}.${template_domainSuffix:=example.com}
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: ${coral_app}
+#             port:
+#               number: ${template_port}
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: ${coral_app}
+#   namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
+# spec:
+#   selector:
+#     app: ${coral_app}
+#   ports:
+#     - protocol: TCP
+#       port: ${template_port}
+#       targetPort: ${template_port}
 
