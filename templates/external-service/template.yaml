@@ -2,48 +2,48 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ${coral_workspace}-${coral_app}-${coral_deployment}
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: ${coral_app}-deployment
-#   namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
-#   labels:
-#   # {{#coral.labels}}
-#   #   {{key}}: {{value}}
-#   # {{/coral.labels}}
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: ${coral_app}
-#   template:
-#     metadata:
-#       labels:
-#         # {{#coral.labels}}
-#         # {{key}}: {{value}}
-#         # {{/coral.labels}}
-#       annotations:
-#         prometheus.io/scrape: "true"
-#         prometheus.io/path: /metrics
-#         prometheus.io/port: "${template_port}"       
-#     spec:
-#       containers:
-#       - name: ${coral_app}
-#         image: ${template_image}
-#         imagePullPolicy: Always
-#         ports:
-#         - containerPort: ${template_port}
-#         resources:
-#           limits:
-#             cpu: 1
-#             memory: 1G
-#         readinessProbe:
-#           httpGet:
-#             path: /healthcheck
-#             port: ${template_port}
-#           initialDelaySeconds: 10
-#           periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${coral_app}-deployment
+  namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
+  labels:
+  # {{#coral.labels}}
+  #   {{key}}: {{value}}
+  # {{/coral.labels}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${coral_app}
+  template:
+    metadata:
+      labels:
+        # {{#coral.labels}}
+        # {{key}}: {{value}}
+        # {{/coral.labels}}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "${template_port}"       
+    spec:
+      containers:
+      - name: ${coral_app}
+        image: ${template_image}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: ${template_port}
+        resources:
+          limits:
+            cpu: 1
+            memory: 1G
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: ${template_port}
+          initialDelaySeconds: 10
+          periodSeconds: 10
 # ---
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
