@@ -8,7 +8,7 @@ kind: Deployment
 metadata:
   name: ${coral_app}-deployment
   namespace: ${coral_workspace}-${coral_app}-${coral_deployment}
-  labels:
+  # labels:
   # {{#coral.labels}}
   #   {{key}}: {{value}}
   # {{/coral.labels}}
@@ -19,7 +19,7 @@ spec:
       app: ${coral_app}
   template:
     metadata:
-      labels:
+      # labels:
         # {{#coral.labels}}
         # {{key}}: {{value}}
         # {{/coral.labels}}
