@@ -27,7 +27,7 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: /metrics
-        prometheus.io/port: '${template_port}'
+        prometheus.io/port: \"${template_port}\"
     spec:
       containers:
       - name: ${coral_app}
